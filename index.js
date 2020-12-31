@@ -33,7 +33,7 @@ app.post("/webhook", line.middleware(config), (req, res) => {
 
 const client = new line.Client(config);
 
- async function handleEvent(event) {
+async function handleEvent(event) {
   if (event.type !== "message" || event.message.type !== "text") {
     return Promise.resolve(null);
   }
@@ -45,8 +45,8 @@ const client = new line.Client(config);
   // OBSに接続してPromiseを受け取る
   obs
     .connect({
-      address: "localhost:4000",  //先ほどOBSで設定したポート番号を記入
-      password: "xxxxxxxxxxxxxxx",  //先ほどOBSで登録したパスワードを記入
+      address: "localhost:4000", //先ほどOBSで設定したポート番号を記入
+      password: process.env.OBS_PASS, //先ほどOBSで登録したパスワードを記入
     })
     // 接続成功
     .then(() => {
@@ -55,7 +55,7 @@ const client = new line.Client(config);
       return obs.send("GetSceneList");
     })
     .then((data) => {
-        console.log(data)
+      console.log(data);
       console.log(`${data.scenes.length} Available Scenes!`);
       // シーンの一覧から現在のシーンを探す
       data.scenes.forEach((scene) => {
