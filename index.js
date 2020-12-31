@@ -58,16 +58,20 @@ async function handleEvent(event) {
       console.log(data);
       console.log(`${data.scenes.length} Available Scenes!`);
       // シーンの一覧から現在のシーンを探す
-      data.scenes.forEach((scene) => {
-        if (scene.name !== data.currentScene) {
-          console.log(
-            `Found a different scene! Switching to Scene: ${scene.name}`
-          );
-          // 現在のシーンを切り替えるリクエスト
-          obs.send("SetCurrentScene", {
-            "scene-name": scene.name,
-          });
-        }
+      //data.scenes.forEach((scene) => {
+      //   if (scene.name !== data.currentScene) {
+      //     console.log(
+      //       `Found a different scene! Switching to Scene: ${scene.name}`
+      //     );
+      //     // 現在のシーンを切り替えるリクエスト
+      //     obs.send("SetCurrentScene", {
+      //       "scene-name": scene.name,
+      //     });
+      //   }
+      // });
+  
+      obs.send("SetCurrentScene", {
+        "scene-name": event.message.text,
       });
     })
     .catch((err) => {
@@ -85,7 +89,7 @@ async function handleEvent(event) {
 
   return client.replyMessage(event.replyToken, {
     type: "text",
-    text: event.message.text,
+    text: `${event.message.text}のシーンに切り替えたよ`,
   });
 }
 
